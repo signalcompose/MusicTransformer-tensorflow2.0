@@ -145,7 +145,7 @@ python train.py --epochs=1 --batch_size=5 --save_path=Midi/ecomp_model --pickle_
 * If you want to generate with shell wise, see this.
 
   ```bash
-  $ python generate.py --load_path={CKPT_CONFIG_PATH} --length={GENERATE_SEQ_LENGTH} --beam={NONE_OR_BEAM_SIZE}
+  $ python generate.py --load_path={CKPT_CONFIG_PATH} --prior_midi={PRIOR_MIDI_PATH} --length={GENERATE_SEQ_LENGTH} --beam={NONE_OR_BEAM_SIZE}
   ```
 
 ### Generate Music Example
