@@ -41,10 +41,32 @@ $ cd MusicTransformer-tensorflow2.0
 
 midi-neural-processor a.k.a midi_processor has already contained as submodule.
 
-## Midi Download	
+## Midi Download
+
+### Yamaha e-Piano Competition dataset
+
+``` bash
+$ sh dataset/script/ecomp_piano_downloader.sh /path/to/output/dir
+```
+
+### Classical Piano Midi Page
+
+``` bash
+$ sh dataset/script/classic_piano_downloader.sh /path/to/output/dir
+```
+
+### midiworld downloader
 
 ```bash
-$ sh dataset/script/{ecomp_piano_downloader, midi_world_downloader, ...}.sh
+$ sh dataset/script/classic_piano_downloader.sh /path/to/output/dir https://www.midiworld.com/files/xxxx/
+```
+
+`https://www.midiworld.com/files/xxxx/` is specified midi files page
+
+### Touhou downloader
+
+```bash
+$ sh dataset/script/touhou_downloader.sh /path/to/output/dir
 ```
 
 * These shell files are from [performaceRNN re-built repository](https://github.com/djosix/Performance-RNN-PyTorch) implemented by [djosix](https://github.com/djosix)
@@ -70,10 +92,14 @@ $ python preprocess.py {midi_load_dir} {dataset_save_dir}
 * Train with only Decoder wise ( only self-attention AR. )
 
   ```bash
-  $ python train.py --epochs={NUM_EPOCHS} --load_path={NONE_OR_LOADING_DIR} --save_path={SAVING_DIR} --max_seq={SEQ_LENGTH} --pickle_dir={DATA_PATH} --batch_size={BATCH_SIZE} --l_r={LEARNING_RATE}
+  $ python train.py --epochs={NUM_EPOCHS} --load_path={NONE_OR_LOADING_DIR} --save_path={SAVING_DIR} --max_seq={SEQ_LENGTH} --pickle_dir={DATA_PATH} --batch_size={BATCH_SIZE} --l_r={LEARNING_RATE} --multi_gpu={True|False}
   ```
 
-  
+### Training Example
+
+```bash
+python train.py --epochs=1 --batch_size=5 --save_path=Midi/ecomp_model --pickle_dir=Midi/ecomp_dataset --multi_gpu=False
+```
 
 ## Hyper Parameter
 
@@ -119,9 +145,14 @@ $ python preprocess.py {midi_load_dir} {dataset_save_dir}
 * If you want to generate with shell wise, see this.
 
   ```bash
-  $ python generate.py --load_path={CKPT_CONFIG_PATH} --length={GENERATE_SEQ_LENGTH} --beam={NONE_OR_BEAM_SIZE}
+  $ python generate.py --load_path={CKPT_CONFIG_PATH} --prior_midi={PRIOR_MIDI_PATH} --length={GENERATE_SEQ_LENGTH} --beam={NONE_OR_BEAM_SIZE}
   ```
 
+### Generate Music Example
+
+```bash
+python generate.py --load_path=Midi/ecomp_model --prior_midi=Midi/ecomp/BENABD10.mid --save_path=Midi/ecomp_generated/test.mid --length=1000
+```
 
 
 
