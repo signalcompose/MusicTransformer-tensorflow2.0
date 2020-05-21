@@ -41,7 +41,8 @@ num_layer = args.num_layers
 
 
 # load data
-dataset = Data('dataset/processed')
+#dataset = Data('dataset/processed')
+dataset = Data(pickle_dir)
 print(dataset)
 
 
@@ -73,7 +74,9 @@ eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 idx = 0
 for e in range(epochs):
     mt.reset_metrics()
+    print("e=", e)
     for b in range(len(dataset.files) // batch_size):
+        print("b=", b)
         try:
             batch_x, batch_y = dataset.slide_seq2seq_batch(batch_size, max_seq)
         except:
