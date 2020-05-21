@@ -35,12 +35,11 @@
 
 ## Repository Setting
 ```bash
-$ git clone https://github.com/jason9693/MusicTransformer-tensorflow2.0.git
+$ git clone https://github.com/signalcompose/MusicTransformer-tensorflow2.0.git
 $ cd MusicTransformer-tensorflow2.0
-$ git clone https://github.com/jason9693/midi-neural-processor.git
-$ mv midi-neural-processor midi_processor
 ```
 
+midi-neural-processor a.k.a midi_processor has already contained as submodule.
 
 ## Midi Download	
 
