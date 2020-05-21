@@ -18,7 +18,7 @@ parser.add_argument('--mode', default='dec')
 parser.add_argument('--beam', default=None, type=int)
 parser.add_argument('--length', default=2048, type=int)
 parser.add_argument('--save_path', default='bin/generated.mid', type=str)
-
+parser.add_argument('--prior_midi', default='dataset/midi/BENABD10.mid', type=str, help='prior data for generate midi file')
 
 args = parser.parse_args()
 
@@ -30,7 +30,7 @@ mode = args.mode
 beam = args.beam
 length = args.length
 save_path= args.save_path
-
+prior_midi = args.prior_midi
 
 current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
 gen_log_dir = 'logs/mt_decoder/generate_'+current_time+'/generate'
@@ -50,8 +50,8 @@ else:
     print(">> generate with decoder wise... beam size is {}".format(beam))
     mt = MusicTransformerDecoder(loader_path=load_path)
 
-inputs = encode_midi('dataset/midi/BENABD10.mid')
-
+#inputs = encode_midi('dataset/midi/BENABD10.mid')
+inputs = encode_midi(prior_midi) 
 
 with gen_summary_writer.as_default():
     result = mt.generate(inputs[:10], beam=beam, length=length, tf_board=True)
