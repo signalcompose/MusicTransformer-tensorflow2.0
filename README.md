@@ -46,19 +46,19 @@ midi-neural-processor a.k.a midi_processor has already contained as submodule.
 ### Yamaha e-Piano Competition dataset
 
 ``` bash
-$ sh dataset/script/ecomp_piano_downloader.sh /path/to/output/dir
+$ sh dataset/scripts/ecomp_piano_downloader.sh /path/to/output/dir
 ```
 
 ### Classical Piano Midi Page
 
 ``` bash
-$ sh dataset/script/classic_piano_downloader.sh /path/to/output/dir
+$ sh dataset/scripts/classic_piano_downloader.sh /path/to/output/dir
 ```
 
 ### midiworld downloader
 
 ```bash
-$ sh dataset/script/classic_piano_downloader.sh /path/to/output/dir https://www.midiworld.com/files/xxxx/
+$ sh dataset/scripts/classic_piano_downloader.sh /path/to/output/dir https://www.midiworld.com/files/xxxx/
 ```
 
 `https://www.midiworld.com/files/xxxx/` is specified midi files page
@@ -66,7 +66,7 @@ $ sh dataset/script/classic_piano_downloader.sh /path/to/output/dir https://www.
 ### Touhou downloader
 
 ```bash
-$ sh dataset/script/touhou_downloader.sh /path/to/output/dir
+$ sh dataset/scripts/touhou_downloader.sh /path/to/output/dir
 ```
 
 * These shell files are from [performaceRNN re-built repository](https://github.com/djosix/Performance-RNN-PyTorch) implemented by [djosix](https://github.com/djosix)
