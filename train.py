@@ -69,7 +69,7 @@ train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
 
-print('start time : ' + current_time_str)
+print('start time : ' + start_time_str)
 # Train Start
 idx = 0
 for e in range(epochs):
