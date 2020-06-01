@@ -61,15 +61,15 @@ mt.compile(optimizer=opt, loss=callback.transformer_dist_train_loss)
 
 
 # define tensorboard writer
-current_time     = datetime.datetime.now()
-current_time_str = current_time.strftime('%Y%m%d-%H%M%S')
+start_time     = datetime.datetime.now()
+start_time_str = current_time.strftime('%Y%m%d-%H%M%S')
 train_log_dir = 'logs/mt_decoder/' + current_time_str + '/train'
 eval_log_dir  = 'logs/mt_decoder/' + current_time_str + '/eval'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
 
-print('current time : ' + current_time_str)
+print('start time : ' + current_time_str)
 # Train Start
 idx = 0
 for e in range(epochs):
@@ -111,12 +111,21 @@ for e in range(epochs):
                 #         with tf.name_scope("_w1"):
                 #             utils.attention_image_summary(weight[1])
             idx += 1
+            current_time = datetime.datetime.now()
+            print('current time : ', current_time)
+            print('elapsed time : ', str(current_time - start_time))
             print('\n====================================================')
             print('Epoch/Batch: {}/{}'.format(e, b))
             print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
             print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
+print('\n====================================================')
+print('Epoch/Batch: {}/{}'.format(e, b))
+print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
+print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
+
 end_time = datetime.datetime.now()
 
 print('end time     : ' + end_time.strftime('%Y%m%d-%H%M%S') )
-print('elapsed time : ' + (end_time - current_time).strftime('%Y%m%d-%H%M%S'))
+
+print('elapsed time : ' + str(end_time - current_time))
