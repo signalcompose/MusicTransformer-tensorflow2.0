@@ -119,13 +119,14 @@ for e in range(epochs):
             print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
             print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
+current_time = datetime.datetime.now()
+print('current time : ', current_time)
+print('elapsed time : ', str(current_time - start_time))
 print('\n====================================================')
 print('Epoch/Batch: {}/{}'.format(e, b))
 print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
 print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
 end_time = datetime.datetime.now()
-
 print('end time     : ' + end_time.strftime('%Y%m%d-%H%M%S') )
-
-print('elapsed time : ' + str(end_time - current_time))
+print('elapsed time : ' + str(end_time - start_time))
