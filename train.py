@@ -39,12 +39,10 @@ save_path = args.save_path
 multi_gpu = args.multi_gpu
 num_layer = args.num_layers
 
-
 # load data
 #dataset = Data('dataset/processed')
 dataset = Data(pickle_dir)
 print(dataset)
-
 
 # load model
 learning_rate = callback.CustomSchedule(par.embedding_dim) if l_r is None else l_r
@@ -63,13 +61,15 @@ mt.compile(optimizer=opt, loss=callback.transformer_dist_train_loss)
 
 
 # define tensorboard writer
-current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-train_log_dir = 'logs/mt_decoder/'+current_time+'/train'
-eval_log_dir = 'logs/mt_decoder/'+current_time+'/eval'
+current_time     = datetime.datetime.now()
+current_time_str = current_time.strftime('%Y%m%d-%H%M%S')
+train_log_dir = 'logs/mt_decoder/' + current_time_str + '/train'
+eval_log_dir  = 'logs/mt_decoder/' + current_time_str + '/eval'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
 
+print('current time : ' + current_time_str)
 # Train Start
 idx = 0
 for e in range(epochs):
@@ -116,4 +116,7 @@ for e in range(epochs):
             print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
             print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
+end_time = datetime.datetime.now()
 
+print('end time     : ' + end_time.strftime('%Y%m%d-%H%M%S') )
+print('elapsed time : ' + (end_time - current_time).strftime('%Y%m%d-%H%M%S'))
