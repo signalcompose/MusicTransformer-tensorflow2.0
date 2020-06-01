@@ -62,9 +62,9 @@ mt.compile(optimizer=opt, loss=callback.transformer_dist_train_loss)
 
 # define tensorboard writer
 start_time     = datetime.datetime.now()
-start_time_str = current_time.strftime('%Y%m%d-%H%M%S')
-train_log_dir = 'logs/mt_decoder/' + current_time_str + '/train'
-eval_log_dir  = 'logs/mt_decoder/' + current_time_str + '/eval'
+start_time_str = start_time.strftime('%Y%m%d-%H%M%S')
+train_log_dir = 'logs/mt_decoder/' + start_time_str + '/train'
+eval_log_dir  = 'logs/mt_decoder/' + start_time_str + '/eval'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
