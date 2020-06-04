@@ -75,7 +75,7 @@ idx = 0
 for e in range(epochs):
     mt.reset_metrics()
     print("e=", e)
-    for b in range(len(dataset.files) // batch_size):
+    for b in range( (len(dataset.files) / 2) // batch_size):
         print("b=", b)
         try:
             batch_x, batch_y = dataset.slide_seq2seq_batch(batch_size, max_seq)
