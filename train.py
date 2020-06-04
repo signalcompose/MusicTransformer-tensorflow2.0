@@ -24,6 +24,9 @@ parser.add_argument('--is_reuse', default=False)
 parser.add_argument('--multi_gpu', default=True)
 parser.add_argument('--num_layers', default=6, type=int)
 
+parser.add_argument('--batch_div', default=1, type=int, help='division of batch counts')
+parser.add_argument('--verbose', default=False, help='flag for verbose mode')
+
 args = parser.parse_args()
 
 
@@ -39,10 +42,15 @@ save_path = args.save_path
 multi_gpu = args.multi_gpu
 num_layer = args.num_layers
 
+batch_div = args.batch_div
+verbose   = args.verbose
+
 # load data
 #dataset = Data('dataset/processed')
 dataset = Data(pickle_dir)
-print(dataset)
+
+if(verbose) :
+    print(dataset)
 
 # load model
 learning_rate = callback.CustomSchedule(par.embedding_dim) if l_r is None else l_r
@@ -74,9 +82,15 @@ print('start time : ' + start_time_str)
 idx = 0
 for e in range(epochs):
     mt.reset_metrics()
-    print("e=", e)
-    for b in range(len(dataset.files) // batch_size):
-        print("b=", b)
+
+    if(verbose) : 
+        print("e=", e)
+
+    for b in range( int(len(dataset.files) / batch_div) // batch_size):
+
+        if(verbose) : 
+            print("b=", b)
+
         try:
             batch_x, batch_y = dataset.slide_seq2seq_batch(batch_size, max_seq)
         except:
