@@ -24,6 +24,9 @@ parser.add_argument('--is_reuse', default=False)
 parser.add_argument('--multi_gpu', default=True)
 parser.add_argument('--num_layers', default=6, type=int)
 
+parser.add_argument('--batch_div', default=1, type=int, help='division of batch counts')
+parser.add_argument('--verbose', default=False, help='flag for verbose mode')
+
 args = parser.parse_args()
 
 
@@ -39,12 +42,15 @@ save_path = args.save_path
 multi_gpu = args.multi_gpu
 num_layer = args.num_layers
 
+batch_div = args.batch_div
+verbose   = args.verbose
 
 # load data
 #dataset = Data('dataset/processed')
 dataset = Data(pickle_dir)
-print(dataset)
 
+if(verbose) :
+    print(dataset)
 
 # load model
 learning_rate = callback.CustomSchedule(par.embedding_dim) if l_r is None else l_r
@@ -63,20 +69,28 @@ mt.compile(optimizer=opt, loss=callback.transformer_dist_train_loss)
 
 
 # define tensorboard writer
-current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
-train_log_dir = 'logs/mt_decoder/'+current_time+'/train'
-eval_log_dir = 'logs/mt_decoder/'+current_time+'/eval'
+start_time     = datetime.datetime.now()
+start_time_str = start_time.strftime('%Y%m%d-%H%M%S')
+train_log_dir = 'logs/mt_decoder/' + start_time_str + '/train'
+eval_log_dir  = 'logs/mt_decoder/' + start_time_str + '/eval'
 train_summary_writer = tf.summary.create_file_writer(train_log_dir)
 eval_summary_writer = tf.summary.create_file_writer(eval_log_dir)
 
 
+print('start time : ' + start_time_str)
 # Train Start
 idx = 0
 for e in range(epochs):
     mt.reset_metrics()
-    print("e=", e)
-    for b in range(len(dataset.files) // batch_size):
-        print("b=", b)
+
+    if(verbose) : 
+        print("e=", e)
+
+    for b in range( int(len(dataset.files) / batch_div) // batch_size):
+
+        if(verbose) : 
+            print("b=", b)
+
         try:
             batch_x, batch_y = dataset.slide_seq2seq_batch(batch_size, max_seq)
         except:
@@ -111,9 +125,22 @@ for e in range(epochs):
                 #         with tf.name_scope("_w1"):
                 #             utils.attention_image_summary(weight[1])
             idx += 1
+            current_time = datetime.datetime.now()
+            print('current time : ', current_time)
+            print('elapsed time : ', str(current_time - start_time))
             print('\n====================================================')
             print('Epoch/Batch: {}/{}'.format(e, b))
             print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
             print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
+current_time = datetime.datetime.now()
+print('current time : ', current_time)
+print('elapsed time : ', str(current_time - start_time))
+print('\n====================================================')
+print('Epoch/Batch: {}/{}'.format(e, b))
+print('Train >>>> Loss: {:6.6}, Accuracy: {}'.format(result_metrics[0], result_metrics[1]))
+print('Eval >>>> Loss: {:6.6}, Accuracy: {}'.format(eval_result_metrics[0], eval_result_metrics[1]))
 
+end_time = datetime.datetime.now()
+print('end time     : ' + end_time.strftime('%Y%m%d-%H%M%S') )
+print('elapsed time : ' + str(end_time - start_time))
